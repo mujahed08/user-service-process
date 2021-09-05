@@ -36,7 +36,7 @@ async def signup(user:UserIn):
         response2 = await client.post(url_assign_roles, data=json.dumps(['ROLE_ADMIN', 'ROLE_USER']))
         if response2.status_code == 200:
             logger.info(response2.json())
-            url_send_message = 'http://demo:8002/producer'
+            url_send_message = 'http://localhost:8002/producer'
             response3 = await client.post(url_send_message, data=json.dumps({
                 "id" : 1,
                 "text" : data1
