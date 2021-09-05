@@ -25,23 +25,23 @@ logger.info('   Initialized Fast API app')
 async def signup(user:UserIn):
     logger.info('   signup function is executing')
     url_users = 'http://localhost:8000/users'
-
+    logger.info(user.json())
     async with httpx.AsyncClient() as client:
-        response = await client.post(url_users, json.dumps(user))
-        data = response.json()
-        logger.info(response.json())
-        user_id = data.get('id')
+        response = await client.post(url_users, data=user.json())
+        data1 = response.json()
+        logger.info(data1)
+        user_id = data1.get('id')
         logger.info(user_id)
         url_assign_roles = f'http://localhost:8000/users/{user_id}/roles'
-        response2 = await client.post(url_assign_roles, json.dumps(['ROLE_ADMIN', 'ROLE_USER']))
+        response2 = await client.post(url_assign_roles, data=json.dumps(['ROLE_ADMIN', 'ROLE_USER']))
         if response2.status_code == 200:
-            logger.log(response2.json())
-            url_send_message = 'http://localhost:8002/producer'
-            response3 = await client.post(url_send_message, json.dumps({
+            logger.info(response2.json())
+            url_send_message = 'http://demo:8002/producer'
+            response3 = await client.post(url_send_message, data=json.dumps({
                 "id" : 1,
-                "text" : data
+                "text" : data1
             }))
-            logger.log(response3.json())
+            logger.info(response3.json())
 
     return Status(message='Hellow World!')
 

@@ -12,7 +12,7 @@
             "args": [
                 "USER_SERVICE_PROCESS.main:app",
                 "--port",
-                "8002"
+                "8001"
             ],
             "jinja": true
         }
