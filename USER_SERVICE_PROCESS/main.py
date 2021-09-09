@@ -49,7 +49,7 @@ async def signup(user:UserIn):
             }))
             logger.info(response3.json())
 
-    return Response(code=200, message='SUCCESS', data=response2.dict())
+    return Response(code=200, message='SUCCESS', data=response2.json())
 
 @app.get("/deactivate/{user_id}", response_model=Response)
 async def deactivate(user_id:int):
