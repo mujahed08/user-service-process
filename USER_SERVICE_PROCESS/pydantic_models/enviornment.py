@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     run_env:str = Field(..., env='RUN_ENV')
     user_svc_sys_host:str = Field(..., env='USER_SVC_SYS_HOST')
     producer_host:str = Field(..., env='PRODUCER_HOST')
+    reverse_proxy_host:str = Field(..., env='REVERSE_PROXY_HOST')
 
     class Config:
         env_file = None

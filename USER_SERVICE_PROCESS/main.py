@@ -15,20 +15,20 @@ logger = get_logger('main.py')
 
 settings = get_settings()
 
-url_send_message = f'{settings.producer_host}/producer'
-url_users = f'{settings.user_svc_sys_host}/users'
+url_send_message = f'{settings.reverse_proxy_host}/producer/message'
+url_users = f'{settings.reverse_proxy_host}/user-service-system/users'
 
 def get_url_user(user_id:int):
-    return f'{settings.user_svc_sys_host}/users/{user_id}'
+    return f'{settings.reverse_proxy_host}/user-service-system/users/{user_id}'
 
 def get_url_assign_roles(user_id:str):
-    return f'{settings.user_svc_sys_host}/users/{user_id}/roles'
+    return f'{settings.reverse_proxy_host}/user-service-system/users/{user_id}/roles'
 
 logger.info('   Initiliazing Fast API app')
 app = FastAPI(title="FastAPI")
 logger.info('   Initialized Fast API app')
 
-@app.post("/signup", response_model=Response)
+@app.post("/user-service-process/signup", response_model=Response)
 async def signup(user:UserIn):
     logger.info('   signup function is executing')
     logger.info(user.json())
@@ -51,12 +51,12 @@ async def signup(user:UserIn):
 
     return Response(code=200, message='SUCCESS', data=response2.json())
 
-@app.get("/deactivate/{user_id}", response_model=Response)
+@app.get("/user-service-process/deactivate/{user_id}", response_model=Response)
 async def deactivate(user_id:int):
     logger.info('   deactivate function is executing')
     return await toggle_enabled(user_id, False)
 
-@app.get("/activate/{user_id}", response_model=Response)
+@app.get("/user-service-process/activate/{user_id}", response_model=Response)
 async def activate(user_id:int):
     logger.info('   activate function is executing')
     return await toggle_enabled(user_id, True)
